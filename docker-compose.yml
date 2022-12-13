@@ -1,0 +1,19 @@
+version: "3.1"
+
+services:
+  nginx-proxy:
+    # https://github.com/nginx-proxy/nginx-proxy
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: unless-stopped
+
+# remember to run `docker network create nginx-proxy` if this is first time running!
+networks:
+  default:
+    external:
+      name: nginx-proxy
